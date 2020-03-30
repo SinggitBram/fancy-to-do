@@ -52,6 +52,7 @@ class TodoController {
                             msg: ele.message
                         })
                     })
+                    
                     res.status(400).json(errorTemp)
                 }else{                    
                     res.status(500).json({msg: `internal server error` })

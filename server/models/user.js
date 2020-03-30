@@ -1,10 +1,26 @@
 'use strict';
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcryptjs')
 
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define('User', {
-    email: DataTypes.STRING,
-    password: DataTypes.STRING
+    email: {
+      type: DataTypes.STRING,
+      validate:
+      {
+        notEmpty: {
+          msg: 'Please input your email'
+        }
+      }
+    },
+    password: {
+      type: DataTypes.STRING,
+      validate:
+      {
+        notEmpty: {
+          msg: 'Please input your password'
+        }
+      }
+    }
   }, {
     hooks: {
       beforeCreate: (instance, option) => {
@@ -14,7 +30,7 @@ module.exports = (sequelize, DataTypes) => {
       }
     }, sequelize
   });
-  User.associate = function(models) {
+  User.associate = function (models) {
     // associations can be defined here
     User.hasMany(models.Todo, { foreignKey: 'userId' })
   };

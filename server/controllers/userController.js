@@ -8,7 +8,7 @@ class UserController {
     static loginUser = (req, res) => {
         let { email, password } = req.body
         User.findOne({
-            where: { email: email }
+            where: { email }
         })
             .then(data => {
                 if (!data) {
@@ -16,7 +16,7 @@ class UserController {
                 } else {
                     if (bcrypt.compareSync(password, data.password)) {
                         let token = jwt.sign({ id: data.id, email: data.email }, process.env.JWT_SECRET);
-                        res.status(200).json({ token: token })
+                        res.status(200).json({ token })
                     } else {
                         res.status(400).json({ msg: `wrong email or password` })
                     }
@@ -32,19 +32,22 @@ class UserController {
             email: req.body.email,
             password: req.body.password
         }
+        console.log(req.body.email)
         User.findOne({
-            where: { email: email }
+            where: { email: req.body.email }
         })
             .then(data => {
                 if (data) {
+                    console.log(`sampai di sini llho`)
                     res.status(400).json({ msg: `email already taken` })
-                } else {
+                } else {                 
                     return User.create(obj)
                 }
             })
             .then(data2 => {
+                console.log(data2,`--------------------------------------------------------------------`)
                 let token = jwt.sign({ id: data2.id, email: data2.email }, process.env.JWT_SECRET);
-                res.status(201).json({ token: token })
+                res.status(201).json({ token})
             })
             .catch(err => {
                 if (err.errors) {
