@@ -1,13 +1,31 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   const Todo = sequelize.define('Todo', {
-    title: DataTypes.STRING,
-    description: DataTypes.STRING,
+    title: {
+      type: DataTypes.STRING,
+      validate: 
+      {
+        notEmpty: {
+          msg: 'please input the title'
+        }
+      }
+    },
+    description: {
+      type: DataTypes.STRING,
+      validate: 
+      {
+        notEmpty: {
+          msg: 'please input the description'
+        }
+      }
+    },
     status: DataTypes.STRING,
-    due_date: DataTypes.DATE
+    due_date: DataTypes.DATE,
+    userId: DataTypes.INTEGER
   }, {});
   Todo.associate = function(models) {
     // associations can be defined here
+    Todo.belongsTo(models.User, { foreignKey: 'userId' })
   };
   return Todo;
 };
