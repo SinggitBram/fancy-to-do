@@ -6,20 +6,20 @@ function authorizationUser(req,res,next){
         where:{id:id}
     })
     .then(data =>{
-        if(data.userId == req.userData.id){
-            next()
-        }else{
-            throw new Error(`user not authorized`)
+        if(!data){
+            res.status(404).json({status:404, msg:`data not found`})
+        }
+        else{
+            if(data.userId == req.userData.id){
+                next()
+            } else{
+                res.status(403).json({status:403,msg:`user not authorized`})
+            }
         }
     })
     .catch(err =>{
-        next({
-            status_code: 400,
-            type: 'Bad Request',
-            message: err.message
-        })
+        next(err)
     })
 }
-
 
 module.exports = authorizationUser

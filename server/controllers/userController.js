@@ -32,22 +32,20 @@ class UserController {
             email: req.body.email,
             password: req.body.password
         }
-        console.log(req.body.email)
+
         User.findOne({
             where: { email: req.body.email }
         })
             .then(data => {
                 if (data) {
-                    console.log(`sampai di sini llho`)
                     res.status(400).json({ msg: `email already taken` })
-                } else {                 
+                } else {
                     return User.create(obj)
                 }
             })
             .then(data2 => {
-                console.log(data2,`--------------------------------------------------------------------`)
                 let token = jwt.sign({ id: data2.id, email: data2.email }, process.env.JWT_SECRET);
-                res.status(201).json({ token})
+                res.status(201).json({ token })
             })
             .catch(err => {
                 if (err.errors) {

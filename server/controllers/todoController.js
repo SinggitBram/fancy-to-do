@@ -95,13 +95,14 @@ class TodoController {
             due_date: req.body.due_date,
             userId: req.userData.id
         }
+
         Todo.update(obj, {where: {id:id}
         })
         .then(data => {
-            if(!data[0]){
-                res.status(404).json({ msg: 'data not found' })
-            }else if (data){
+            if(data[0]){
                 res.status(200).json(obj)
+            }else{
+                res.status(404).json({ msg: 'data not found' })
             }
         })
         .catch(err => {
