@@ -41,7 +41,7 @@ class TodoController {
 
         Todo.create(obj)
             .then(data => {
-                res.status(200).json(data)
+                res.status(201).json(data)
             })
             .catch(err => {
                 if(err.errors){
@@ -119,11 +119,5 @@ class TodoController {
         })
     }
 }
-
-
-
-
-
-
 
 module.exports = TodoController
