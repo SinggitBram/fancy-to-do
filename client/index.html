@@ -10,30 +10,148 @@
     <title>Document</title>
 </head>
 
-<body style="background-color: cornflowerblue">
-    <div id="judulweb" class="text-center">
-        <h1 style="font-size: 100px; font-family:Arial" >Fancy~Todoo</h1>
+<body style="background-color: #004f8c;
+background-image: url(https://www.transparenttextures.com/patterns/45-degree-fabric-light.png)">
+
+    <div id="divheader">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand" href="">Fancy-Todo</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarText">
+              <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                  <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Features</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Pricing</a>
+                </li>
+              </ul>
+            </div>
+          </nav>
     </div>
+
     <div id="divlogin" class="container bg-dark text-white my-3 rounded p-3 w-25 text-center">
         <h2>Member Login</h2>
-        <form id="login-form" >
+        <form id="login-form">
             <div class="form-group">
                 <label for="usr">Email:</label>
                 <input type="text" class="form-control" placeholder="Email" id="emaillogin" name="email" required>
             </div>
             <div class="form-group">
                 <label for="pwd">Password:</label>
-                <input type="password" class="form-control" id="passwordlogin" placeholder="Password" name="password" required>
-                <input class="mt-3" type="checkbox" onclick="showHidePass()">Show Password
+                <input type="password" class="form-control" id="passwordlogin" placeholder="Password" name="password"
+                    required>
+                <input class="mt-3" type="checkbox" onclick="showHidePassLogin()">Show Password
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-primary w-100">Sign-In</button>
         </form>
+
         <div>
-            <button id="tombolregister" class="btn btn-success mt-2">Go to Register</button>
+            <button id="tombolregister" class="btn btn-success mt-2 w-100">Go to Register</button>
         </div>
-        <div class="g-signin2" data-onsuccess="onSignIn"></div>
     </div>
 
+    <div id="divregister" class="container bg-dark text-white my-3 rounded p-3 w-25 text-center">
+        <h2>Register</h2>
+
+        <form id="register-form">
+            <div class="form-group">
+                <label for="pwd">Email:</label>
+                <input type="text" class="form-control" id="emailregister" placeholder="Email" name="email">
+            </div>
+            <div class="form-group">
+                <label for="pwd">Password:</label>
+                <input type="password" class="form-control" id="passwordregister" placeholder="Password"
+                    name="password">
+                <input class="mt-3" type="checkbox" onclick="showHidePassRegister()">Show Password
+            </div>
+            <button id="tombolsubmitregister" type="submit" class="btn btn-primary w-100">Sign-Up</button>
+        </form>
+
+        <div>
+            <button id="tombollogin" class="btn btn-success mt-2 w-100">Go to Login</button>
+        </div>
+    </div>
+
+    <div id="divtodos" class="container bg-dark rounded pb-2">
+        <div class="text-center text-white">
+            <h4 style="font-size: 50px; font-family:Arial" class="pt-2">Your Todo</h4>
+        </div>
+        <div class="mt-3">
+            <table class="table table-bordered table-striped mt-2 text-white" id="tableTodo">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Title</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Due Date</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- lorem ipsum -->
+                </tbody>
+            </table>
+        </div>
+        <div>
+            <button id="tomboladd" class="btn btn-info my-2">Add Todo</button>
+        </div>
+        <div>
+            <button id="tombollogout" class="btn btn-danger mb-2">Logout</button>
+        </div>
+    </div>
+
+    <div id="divadd" class="container bg-dark text-white mt-3 rounded pb-2 w-50">
+        <h2 class="pt-2">Add Todo</h2>
+        <form id="add-form">
+            <div class="form-group">
+                <label for="usr">Title:</label>
+                <input type="text" class="form-control" id="titleadd" name="name" placeholder="insert title here">
+            </div>
+            <div class="form-group">
+                <label for="pwd">Description:</label>
+                <input type="text" class="form-control" id="descriptionadd" name="email" placeholder="insert description here">
+            </div>
+            <div class="form-group">
+                <label for="pwd">Status:</label>
+                <input type="text" class="form-control" id="statusadd" name="password" placeholder="insert status here">
+            </div>
+            <div class="form-group">
+                <label for="pwd">Due Date:</label>
+                <input type="date" class="form-control" id="duedateadd" name="duedate">
+            </div>
+            <button id="tombolsubmitadd" type="submit" class="btn btn-warning">Submit</button>
+        </form>
+    </div>
+
+    <div id="divedit" class="container bg-dark text-white mt-3 rounded pb-2 w-50">
+        <h2 class="pt-2">Edit Todo</h2>
+        <form id="edit-form">
+            <div class="form-group">
+                <label for="usr">Title:</label>
+                <input type="text" class="form-control" id="titleedit" name="name" value="">
+            </div>
+            <div class="form-group">
+                <label for="pwd">Description:</label>
+                <input type="text" class="form-control" id="descriptionedit" name="email" value="">
+            </div>
+            <div class="form-group">
+                <label for="pwd">Status:</label>
+                <input type="text" class="form-control" id="statusedit" name="password" value="">
+            </div>
+            <div class="form-group">
+                <label for="pwd">Due Date:</label>
+                <input type="date" class="form-control" id="duedateedit" name="duedate" value="">
+            </div>
+            <button id="tombolsubmitedit" type="submit" class="btn btn-warning">Submit</button>
+        </form>
+    </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"
         integrity="sha256-4iQZ6BVL4qNKlQ27TExEhBN1HFPvAvAMbFavKKosSWQ=" crossorigin="anonymous"></script>
@@ -47,14 +165,26 @@
         integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
         crossorigin="anonymous"></script>
     <script>
+        $("document").ready(function(){
 
-        function showHidePass(){
-            if( $("#passwordlogin").attr("type") == 'password'){
+        })
+
+        function showHidePassLogin() {
+            if ($("#passwordlogin").attr("type") == 'password') {
                 $("#passwordlogin").attr("type", 'text')
-            }else if ($("#passwordlogin").attr("type") == 'text'){
+            } else if ($("#passwordlogin").attr("type") == 'text') {
                 $("#passwordlogin").attr("type", 'password')
             }
         }
+
+        function showHidePassRegister() {
+            if ($("#passwordregister").attr("type") == 'password') {
+                $("#passwordregister").attr("type", 'text')
+            } else if ($("#passwordregister").attr("type") == 'text') {
+                $("#passwordregister").attr("type", 'password')
+            }
+        }
+
     </script>
 </body>
 
