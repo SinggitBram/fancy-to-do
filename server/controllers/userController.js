@@ -15,8 +15,8 @@ class UserController {
                     res.status(400).json({ msg: `email not registered` })
                 } else {
                     if (bcrypt.compareSync(password, data.password)) {
-                        let token = jwt.sign({ id: data.id, email: data.email }, process.env.JWT_SECRET);
-                        res.status(200).json({ token })
+                        let accessToken = jwt.sign({ id: data.id, email: data.email }, process.env.JWT_SECRET);
+                        res.status(200).json({ accessToken })
                     } else {
                         res.status(400).json({ msg: `wrong email or password` })
                     }
@@ -44,8 +44,8 @@ class UserController {
                 }
             })
             .then(data2 => {
-                let token = jwt.sign({ id: data2.id, email: data2.email }, process.env.JWT_SECRET);
-                res.status(201).json({ token })
+                let accessToken = jwt.sign({ id: data2.id, email: data2.email }, process.env.JWT_SECRET);
+                res.status(201).json({ accessToken })
             })
             .catch(err => {
                 if (err.errors) {
