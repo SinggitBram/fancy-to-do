@@ -3,11 +3,12 @@ require('dotenv').config()
 
 function authenticationUser(req, res, next) {
     try {
-        const { accessToken } = req.headers
-        if(!accessToken){
+        const { token } = req.headers
+        if(!token){
+            console.log(req.headers)
             res.status(404).json({msg:`token not found`})
         }else{
-            let decoded = jwt.verify(accessToken, process.env.JWT_SECRET);
+            let decoded = jwt.verify(token, process.env.JWT_SECRET);
             req.userData = decoded
             next()
         }

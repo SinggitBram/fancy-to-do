@@ -6,33 +6,38 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-
+    <style>
+        .container {
+            display: none;
+        }
+    </style>
     <title>Document</title>
 </head>
 
 <body style="background-color: #004f8c;
 background-image: url(https://www.transparenttextures.com/patterns/45-degree-fabric-light.png)">
 
-    <div id="divheader">
+    <div id="divheader" class="mb-3">
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <a class="navbar-brand" href="">Fancy-Todo</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText"
+                aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarText">
-              <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                  <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#">Features</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#">Pricing</a>
-                </li>
-              </ul>
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Features</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Pricing</a>
+                    </li>
+                </ul>
             </div>
-          </nav>
+        </nav>
     </div>
 
     <div id="divlogin" class="container bg-dark text-white my-3 rounded p-3 w-25 text-center">
@@ -52,7 +57,7 @@ background-image: url(https://www.transparenttextures.com/patterns/45-degree-fab
         </form>
 
         <div>
-            <button id="tombolregister" class="btn btn-success mt-2 w-100">Go to Register</button>
+            <button id="tombolpindahregister" class="btn btn-success mt-2 w-100">Go to Register</button>
         </div>
     </div>
 
@@ -74,13 +79,13 @@ background-image: url(https://www.transparenttextures.com/patterns/45-degree-fab
         </form>
 
         <div>
-            <button id="tombollogin" class="btn btn-success mt-2 w-100">Go to Login</button>
+            <button id="tombolpindahlogin" class="btn btn-success mt-2 w-100">Go to Login</button>
         </div>
     </div>
 
     <div id="divtodos" class="container bg-dark rounded pb-2">
         <div class="text-center text-white">
-            <h4 style="font-size: 50px; font-family:Arial" class="pt-2">Your Todo</h4>
+            <h4 style="font-size: 50px; font-family:Arial" class="pt-2">Your Todo List</h4>
         </div>
         <div class="mt-3">
             <table class="table table-bordered table-striped mt-2 text-white" id="tableTodo">
@@ -99,11 +104,11 @@ background-image: url(https://www.transparenttextures.com/patterns/45-degree-fab
                 </tbody>
             </table>
         </div>
-        <div>
+        <div class="text-center">
             <button id="tomboladd" class="btn btn-info my-2">Add Todo</button>
         </div>
-        <div>
-            <button id="tombollogout" class="btn btn-danger mb-2">Logout</button>
+        <div class="text-center">
+            <button id="tombollogout" class="btn btn-secondary mb-2">Logout</button>
         </div>
     </div>
 
@@ -116,7 +121,8 @@ background-image: url(https://www.transparenttextures.com/patterns/45-degree-fab
             </div>
             <div class="form-group">
                 <label for="pwd">Description:</label>
-                <input type="text" class="form-control" id="descriptionadd" name="email" placeholder="insert description here">
+                <input type="text" class="form-control" id="descriptionadd" name="email"
+                    placeholder="insert description here">
             </div>
             <div class="form-group">
                 <label for="pwd">Status:</label>
@@ -152,22 +158,142 @@ background-image: url(https://www.transparenttextures.com/patterns/45-degree-fab
             <button id="tombolsubmitedit" type="submit" class="btn btn-warning">Submit</button>
         </form>
     </div>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"
-        integrity="sha256-4iQZ6BVL4qNKlQ27TExEhBN1HFPvAvAMbFavKKosSWQ=" crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
-        crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-        crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
-        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
-        crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
     <script>
-        $("document").ready(function(){
+        $(document).ready(function () {
+            if (localStorage.getItem("token")) {
+                getTodo()
+                $("#divtodos").show(300)
+            } else {
+                $("#divlogin").show(300)
+            }
+
+            $("#tombolpindahregister").click(function (event) {
+                event.preventDefault()
+                $("#divlogin").hide(300);
+                $("#divregister").show(300)
+            });
+
+            $("#tombolpindahlogin").click(function (event) {
+                event.preventDefault()
+                $("#divregister").hide(300);
+                $("#divlogin").show(300)
+            });
+
+            $("#login-form").submit(function (event) {
+                event.preventDefault()
+                $.ajax({
+                    url: "http://localhost:3000/users/login",
+                    type: "post",
+                    data: {
+                        email: $("#emaillogin").val(),
+                        password: $("#passwordlogin").val()
+                    },
+                    success: function (data) {
+                        localStorage.setItem("token", data.token)
+                        getTodo()
+                        $("#divlogin").hide(300)
+                        $("#divtodos").show(300)
+                    }
+                })
+            })
+
+            $("#register-form").submit(function (event) {
+                event.preventDefault()
+                $.ajax({
+                    url: "http://localhost:3000/users/register",
+                    type: "post",
+                    data: {
+                        email: $("#emailregister").val(),
+                        password: $("#passwordregister").val()
+                    },
+                    success: function (data) {
+                        localStorage.setItem("accessToken", data.token)
+                        getTodo()
+                        $("#divregister").hide(300)
+                        $("#divtodos").show(300)
+                    }
+                })
+            })
+
+            $("#tombollogout").click(function (event) {
+                event.preventDefault()
+                localStorage.clear()
+                $(".container").hide(300)
+                $("#divlogin").show(300)
+            })
+
+            $("#tomboladd").click(function (event) {
+                event.preventDefault()
+                $(".container").hide(300)
+                $("#divadd").show(300)
+            })
+
+            $("#add-form").submit(function (event) {
+                event.preventDefault()
+                addTodo()
 
         })
+
+        function addTodo(){}
+
+        function getTodo() {
+
+            $.ajax({
+                url: "http://localhost:3000/todos",
+                type: "get",
+                headers: { token: localStorage.getItem("token") },
+                success: function (data) {
+                    $("#tableTodo tbody").empty()
+                    data.forEach(element => {
+                        $("#tableTodo tbody").append(
+                            `<tr>
+                                <td>${element.id}</td>
+                                <td>${element.title}</td>
+                                <td>${element.description}</td>
+                                <td>${element.status}</td>
+                                <td>${element.due_date}</td>
+                                <td><a class="btn btn-primary mx-2" onclick=updateTodo(${element.id}) role="button">Edit</a> <a class="btn btn-danger" onclick=deleteTodo(${element.id}) role="button"> Delete </a></td>
+                            </tr>`
+                        )
+                    });
+                }
+            })
+        }
+
+        function deleteTodo(deleteid) {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: 'You will not be able to recover this Todo!',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, delete it!',
+                cancelButtonText: 'No, keep it'
+            }).then((result) => {
+                if (result.value) {
+                    $.ajax({
+                        url:`http://localhost:3000/todos/${deleteid}`,
+                        type:"delete",
+                        headers:{token: localStorage.getItem('token')},
+                        success: function (data) {
+                            Swal.fire(
+                                'Deleted!',
+                                'Your todo has been deleted.',
+                                'success'     
+                            )
+                            getTodo()
+                        }
+                    })
+                } else if (result.dismiss === Swal.DismissReason.cancel){
+                    Swal.fire(
+                        'Cancelled',
+                        'Your todo is safe :)',
+                        'error'
+                    )
+                }
+            })
+        }
 
         function showHidePassLogin() {
             if ($("#passwordlogin").attr("type") == 'password') {
