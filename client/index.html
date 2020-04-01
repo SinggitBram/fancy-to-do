@@ -4,6 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-signin-client_id"
+        content="344450414832-88ujhmqg8b9jeskrvfn5kojd0tsikt68.apps.googleusercontent.com">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <style>
@@ -14,8 +16,10 @@
     <title>Document</title>
 </head>
 
-<body style="background-color: #004f8c;
-background-image: url(https://www.transparenttextures.com/patterns/45-degree-fabric-light.png)">
+<body style="background-color: #99aaff;
+background-image: url(https://www.transparenttextures.com/patterns/black-scales.png)">
+
+
 
     <div id="divheader" class="mb-3">
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -40,7 +44,7 @@ background-image: url(https://www.transparenttextures.com/patterns/45-degree-fab
         </nav>
     </div>
 
-    <div id="divlogin" class="container bg-dark text-white my-3 rounded p-3 w-25 text-center">
+    <div id="divlogin" class="container bg-dark text-white my-3 rounded p-3 w-25 text-center border border-light">
         <h2>Member Login</h2>
         <form id="login-form">
             <div class="form-group">
@@ -59,9 +63,10 @@ background-image: url(https://www.transparenttextures.com/patterns/45-degree-fab
         <div>
             <button id="tombolpindahregister" class="btn btn-success mt-2 w-100">Go to Register</button>
         </div>
+        <div class="g-signin2 mt-2" data-onsuccess="onSignIn"></div>
     </div>
 
-    <div id="divregister" class="container bg-dark text-white my-3 rounded p-3 w-25 text-center">
+    <div id="divregister" class="container bg-dark text-white my-3 rounded p-3 w-25 text-center border border-light">
         <h2>Register</h2>
 
         <form id="register-form">
@@ -83,7 +88,7 @@ background-image: url(https://www.transparenttextures.com/patterns/45-degree-fab
         </div>
     </div>
 
-    <div id="divtodos" class="container bg-dark rounded pb-2">
+    <div id="divtodos" class="container bg-dark rounded pb-2 border border-light">
         <div class="text-center text-white">
             <h4 style="font-size: 50px; font-family:Arial" class="pt-2">Your Todo List</h4>
         </div>
@@ -112,7 +117,7 @@ background-image: url(https://www.transparenttextures.com/patterns/45-degree-fab
         </div>
     </div>
 
-    <div id="divadd" class="container bg-dark text-white mt-3 rounded pb-2 w-50">
+    <div id="divadd" class="container bg-dark text-white mt-3 rounded pb-2 w-50 border border-light">
         <h2 class="pt-2">Add Todo</h2>
         <form id="add-form">
             <div class="form-group">
@@ -134,9 +139,12 @@ background-image: url(https://www.transparenttextures.com/patterns/45-degree-fab
             </div>
             <button id="tombolsubmitadd" type="submit" class="btn btn-warning">Submit</button>
         </form>
+        <div>
+            <button class="btn btn-secondary mt-2 tombolback">Back</button>
+        </div>
     </div>
 
-    <div id="divedit" class="container bg-dark text-white mt-3 rounded pb-2 w-50">
+    <div id="divedit" class="container bg-dark text-white mt-3 rounded pb-2 w-50 border border-light">
         <h2 class="pt-2">Edit Todo</h2>
         <form id="edit-form">
             <div class="form-group">
@@ -158,11 +166,12 @@ background-image: url(https://www.transparenttextures.com/patterns/45-degree-fab
             <button id="tombolsubmitedit" type="submit" class="btn btn-warning">Submit</button>
         </form>
         <div>
-
-            <button id="tombolback" class="btn btn-secondary mt-2">Back</button>
+            <button class="btn btn-secondary mt-2 tombolback">Back</button>
 
         </div>
     </div>
+
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
     <script>
@@ -174,9 +183,9 @@ background-image: url(https://www.transparenttextures.com/patterns/45-degree-fab
                 $("#divlogin").show(300)
             }
 
-            $("#tombolback").click(function (event) {
+            $(".tombolback").click(function (event) {
                 event.preventDefault()
-                $("#divedit").hide(300);
+                $(".container").hide(300);
                 $("#divtodos").show(300)
             });
 
@@ -204,6 +213,7 @@ background-image: url(https://www.transparenttextures.com/patterns/45-degree-fab
                     success: function (data) {
                         localStorage.setItem("token", data.token)
                         getTodo()
+                        $("#login-form")[0].reset()
                         $("#divlogin").hide(300)
                         $("#divtodos").show(300)
                     }
@@ -220,8 +230,9 @@ background-image: url(https://www.transparenttextures.com/patterns/45-degree-fab
                         password: $("#passwordregister").val()
                     },
                     success: function (data) {
-                        localStorage.setItem("accessToken", data.token)
+                        localStorage.setItem("token", data.token)
                         getTodo()
+                        $("#register-form")[0].reset()
                         $("#divregister").hide(300)
                         $("#divtodos").show(300)
                     }
@@ -230,9 +241,32 @@ background-image: url(https://www.transparenttextures.com/patterns/45-degree-fab
 
             $("#tombollogout").click(function (event) {
                 event.preventDefault()
-                localStorage.clear()
-                $(".container").hide(300)
-                $("#divlogin").show(300)
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: 'You will be logged out from this session!',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes, please!',
+                    cancelButtonText: 'No, I want to stay here!'
+                }).then((result) => {
+                    if (result.value) {
+                        var auth2 = gapi.auth2.getAuthInstance();
+                        auth2.signOut().then(function () {
+                            console.log('User signed out.');
+                        });
+                        localStorage.clear()
+                        $(".container").hide(300)
+                        $("#divlogin").show(300)
+
+                    } else if (result.dismiss === Swal.DismissReason.cancel) {
+                        Swal.fire(
+                            'Cancelled',
+                            'You are still here :)',
+                            'error'
+                        )
+                    }
+                })
+
             })
 
             $("#tomboladd").click(function (event) {
@@ -243,10 +277,61 @@ background-image: url(https://www.transparenttextures.com/patterns/45-degree-fab
 
             $("#add-form").submit(function (event) {
                 event.preventDefault()
-                addTodo()
+                $.ajax({
+                    url: "http://localhost:3000/todos",
+                    type: 'post',
+                    headers: { token: localStorage.getItem('token') },
+                    data: {
+                        title: $("#titleadd").val(),
+                        description: $("#descriptionadd").val(),
+                        status: $("#statusadd").val(),
+                        due_date: $("#duedateadd").val()
+                    }
+                })
+                    .done(function (result) {
+                        $("#divadd").hide(300)
+                        getTodo()
+                        $("#divtodos").show(300)
+                    })
+            })
+
+            $("#edit-form").submit(function (event) {
+                event.preventDefault()
+                let iduntukedit = $("#tombolsubmitedit").data('params')
+                $.ajax({
+                    url: `http://localhost:3000/todos/${iduntukedit}`,
+                    type: "put",
+                    headers: { token: (localStorage.getItem("token")) },
+                    data: {
+                        title: $("#titleedit").val(),
+                        description: $("#descriptionedit").val(),
+                        status: $("#statusedit").val(),
+                        due_date: $("#duedateedit").val()
+                    }
+                })
+                    .done(function (result) {
+                        $("#divedit").hide(300)
+                        getTodo()
+                        $("#divtodos").show(300)
+                    })
             })
 
         })
+
+        function onSignIn(googleUser) {
+            var id_token = googleUser.getAuthResponse().id_token;
+            $.ajax({
+                url: "http://localhost:3000/users/googlesignin",
+                type: "post",
+                data: { token: id_token }
+            })
+                .then(data => {
+                    localStorage.setItem("token", data.token)
+                    getTodo()
+                    $("#divlogin").hide(300)
+                    $("#divtodos").show(300)
+                })
+        }
 
         function addTodo() {
             $.ajax({
@@ -301,7 +386,8 @@ background-image: url(https://www.transparenttextures.com/patterns/45-degree-fab
                     $("#titleedit").val(result.title)
                     $("#descriptionedit").val(result.description)
                     $("#statusedit").val(result.status)
-                    $("#duedateedit").val(result.due_date)
+                    $("#duedateedit").val(result.due_date.toString().substring(0, 10))
+                    $("#tombolsubmitedit").data("params", editid)
                     $(".container").hide(300)
                     $("#divedit").show(300)
                 })

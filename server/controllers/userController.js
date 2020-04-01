@@ -2,6 +2,8 @@ require('dotenv').config()
 const { User } = require("../models")
 var jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
+const { OAuth2Client } = require('google-auth-library');
+
 
 class UserController {
 
@@ -59,6 +61,42 @@ class UserController {
                     res.status(400).json({ errorTemp })
                 } else {
                     res.status(500).json({ error: err, msg: `internal server error` })
+                }
+            })
+    }
+
+    static googleSignIn = (req, res, next) => {
+        const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+        let user = {}
+        client.verifyIdToken({
+            idToken: req.body.token,
+            audience: process.env.GOOGLE_CLIENT_KEY,
+        })
+            .then(ticket => {
+                const payload = ticket.getPayload();
+                user = {
+                    email: payload.email,
+                    password: `default12345`
+                }
+                return User.findOne({ where: { email: user.email } })
+            })
+            .then(userdata => {
+                if (userdata) {
+                    let token = jwt.sign({ id: userdata.id, email: userdata.email }, process.env.JWT_SECRET)
+                    res.status(200).json({ token })
+                } else {
+                    return User.create(user)
+                }
+            })
+            .then(result => {
+                let token = jwt.sign({ id: result.id, email: result.email }, process.env.JWT_SECRET)
+                res.status(200).json({ token })
+            })
+            .catch(err => {
+                if (err) {
+                    next(err)
+                } else {
+                    next({ status: 400, msg: `Failed` })
                 }
             })
     }
