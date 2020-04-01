@@ -157,6 +157,11 @@ background-image: url(https://www.transparenttextures.com/patterns/45-degree-fab
             </div>
             <button id="tombolsubmitedit" type="submit" class="btn btn-warning">Submit</button>
         </form>
+        <div>
+
+            <button id="tombolback" class="btn btn-secondary mt-2">Back</button>
+
+        </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
@@ -168,6 +173,12 @@ background-image: url(https://www.transparenttextures.com/patterns/45-degree-fab
             } else {
                 $("#divlogin").show(300)
             }
+
+            $("#tombolback").click(function (event) {
+                event.preventDefault()
+                $("#divedit").hide(300);
+                $("#divtodos").show(300)
+            });
 
             $("#tombolpindahregister").click(function (event) {
                 event.preventDefault()
@@ -233,10 +244,28 @@ background-image: url(https://www.transparenttextures.com/patterns/45-degree-fab
             $("#add-form").submit(function (event) {
                 event.preventDefault()
                 addTodo()
+            })
 
         })
 
-        function addTodo(){}
+        function addTodo() {
+            $.ajax({
+                url: "http://localhost:3000/todos",
+                type: 'post',
+                headers: { token: localStorage.getItem('token') },
+                data: {
+                    title: $("#titleadd").val(),
+                    description: $("#descriptionadd").val(),
+                    status: $("#statusadd").val(),
+                    due_date: $("#duedateadd").val()
+                }
+            })
+                .done(function (result) {
+                    $("#divadd").hide(300)
+                    getTodo()
+                    $("#divtodos").show(300)
+                })
+        }
 
         function getTodo() {
 
@@ -253,13 +282,31 @@ background-image: url(https://www.transparenttextures.com/patterns/45-degree-fab
                                 <td>${element.title}</td>
                                 <td>${element.description}</td>
                                 <td>${element.status}</td>
-                                <td>${element.due_date}</td>
+                                <td>${element.due_date.toString().substring(0, 10)}</td>
                                 <td><a class="btn btn-primary mx-2" onclick=updateTodo(${element.id}) role="button">Edit</a> <a class="btn btn-danger" onclick=deleteTodo(${element.id}) role="button"> Delete </a></td>
                             </tr>`
                         )
                     });
                 }
             })
+        }
+
+        function updateTodo(editid) {
+            $.ajax({
+                url: `http://localhost:3000/todos/${editid}`,
+                type: "get",
+                headers: { token: localStorage.getItem("token") }
+            })
+                .done(function (result) {
+                    $("#titleedit").val(result.title)
+                    $("#descriptionedit").val(result.description)
+                    $("#statusedit").val(result.status)
+                    $("#duedateedit").val(result.due_date)
+                    $(".container").hide(300)
+                    $("#divedit").show(300)
+                })
+
+
         }
 
         function deleteTodo(deleteid) {
@@ -273,19 +320,19 @@ background-image: url(https://www.transparenttextures.com/patterns/45-degree-fab
             }).then((result) => {
                 if (result.value) {
                     $.ajax({
-                        url:`http://localhost:3000/todos/${deleteid}`,
-                        type:"delete",
-                        headers:{token: localStorage.getItem('token')},
+                        url: `http://localhost:3000/todos/${deleteid}`,
+                        type: "delete",
+                        headers: { token: localStorage.getItem('token') },
                         success: function (data) {
                             Swal.fire(
                                 'Deleted!',
                                 'Your todo has been deleted.',
-                                'success'     
+                                'success'
                             )
                             getTodo()
                         }
                     })
-                } else if (result.dismiss === Swal.DismissReason.cancel){
+                } else if (result.dismiss === Swal.DismissReason.cancel) {
                     Swal.fire(
                         'Cancelled',
                         'Your todo is safe :)',
