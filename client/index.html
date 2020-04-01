@@ -113,6 +113,9 @@ background-image: url(https://www.transparenttextures.com/patterns/black-scales.
             <button id="tomboladd" class="btn btn-info my-2">Add Todo</button>
         </div>
         <div class="text-center">
+            <button id="tombolholiday" class="btn btn-success mb-2">Holiday List</button>
+        </div>
+        <div class="text-center">
             <button id="tombollogout" class="btn btn-secondary mb-2">Logout</button>
         </div>
     </div>
@@ -143,7 +146,31 @@ background-image: url(https://www.transparenttextures.com/patterns/black-scales.
             <button class="btn btn-secondary mt-2 tombolback">Back</button>
         </div>
     </div>
-
+<!-- -------------------------------------------------------------- -->
+    <div id="divholiday" class="container bg-dark rounded pb-2 border border-light">
+        <div class="text-center text-white">
+            <h4 style="font-size: 50px; font-family:Arial" class="pt-2">List of Holiday</h4>
+        </div>
+        <div class="mt-3">
+            <table class="table table-bordered table-striped mt-2 text-white" id="tableHoliday">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- lorem ipsum -->
+                </tbody>
+            </table>
+        </div>
+        <div class="text-center">
+            <button class="btn btn-secondary mt-2 tombolback">Back</button>
+        </div>
+    </div>
+<!-- ------------------------------------------------------------------------ -->
     <div id="divedit" class="container bg-dark text-white mt-3 rounded pb-2 w-50 border border-light">
         <h2 class="pt-2">Edit Todo</h2>
         <form id="edit-form">
@@ -182,6 +209,13 @@ background-image: url(https://www.transparenttextures.com/patterns/black-scales.
             } else {
                 $("#divlogin").show(300)
             }
+
+            $("#tombolholiday").click(function (event) {
+                event.preventDefault()
+                $(".container").hide(300);
+                holiday()
+                $("#divholiday").show(300)
+            });
 
             $(".tombolback").click(function (event) {
                 event.preventDefault()
@@ -318,6 +352,28 @@ background-image: url(https://www.transparenttextures.com/patterns/black-scales.
 
         })
 
+        function holiday(){
+            $.ajax({
+                url: "http://localhost:3000/todos/holidays",
+                type: "get",
+                success: function (data) {
+                    $("#tableHoliday tbody").empty()
+                    let count = 0
+                    data.forEach(element => {
+                        count+=1
+                        $("#tableHoliday tbody").append(
+                            `<tr>
+                                <td>${count}</td>
+                                <td>${element.name}</td>
+                                <td>${element.description}</td>
+                                <td>${element.date}</td>
+                            </tr>`
+                        )
+                    });
+                }
+            })
+        }
+
         function onSignIn(googleUser) {
             var id_token = googleUser.getAuthResponse().id_token;
             $.ajax({
@@ -391,8 +447,6 @@ background-image: url(https://www.transparenttextures.com/patterns/black-scales.
                     $(".container").hide(300)
                     $("#divedit").show(300)
                 })
-
-
         }
 
         function deleteTodo(deleteid) {
