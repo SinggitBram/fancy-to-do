@@ -3,7 +3,7 @@ const { User } = require("../models")
 var jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
 const { OAuth2Client } = require('google-auth-library');
-
+const nodemailer = require("nodemailer");
 
 class UserController {
 
@@ -17,6 +17,9 @@ class UserController {
                     res.status(400).json({ msg: `email not registered` })
                 } else {
                     if (bcrypt.compareSync(password, data.password)) {
+                      
+
+
                         let token = jwt.sign({ id: data.id, email: data.email }, process.env.JWT_SECRET);
                         res.status(200).json({ token })
                     } else {
@@ -42,6 +45,32 @@ class UserController {
                 if (data) {
                     res.status(400).json({ msg: `email already taken` })
                 } else {
+
+                    // -------------------------------------------------------
+                        let transporter = nodemailer.createTransport({
+                            service: 'gmail',
+                            auth: {
+                                user: process.env.GOOGLE_ID,
+                                pass: process.env.GOOGLE_PASS,
+                            }
+                        });
+    
+                        // send mail with defined transport object
+                        let mailOptions = {
+                            from: 'bramtodo@gmail.com',
+                            to: req.body.email,
+                            subject: 'Selamat Datang di applikasi Bram',
+                            text: `aloha`
+                        }
+
+                        transporter.sendMail(mailOptions, (err, data) => {
+                            if (err) {
+                                console.log('Error kirim email: ', err)
+                            }else {
+                                console.log('email sent')
+                            }
+                        })
+    // ----------------------------------------------------------
                     return User.create(obj)
                 }
             })
