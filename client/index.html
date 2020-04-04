@@ -16,8 +16,9 @@
     <title>Document</title>
 </head>
 
-<body style="background-color: #99aaff;
-background-image: url(https://www.transparenttextures.com/patterns/black-scales.png)">
+<body style="background-color: #dddd">
+    <!-- <body style="background-color: #99aaff;
+background-image: url(https://www.transparenttextures.com/patterns/black-scales.png)"> -->
 
 
 
@@ -41,8 +42,13 @@ background-image: url(https://www.transparenttextures.com/patterns/black-scales.
                     </li>
                 </ul>
             </div>
+            <div class="text-center">
+                <button id="tombollogout" class="btn btn-secondary mb-2">Logout</button>
+            </div>
         </nav>
     </div>
+
+    <div id="errormess"></div>
 
     <div id="divlogin" class="container bg-dark text-white my-3 rounded p-3 w-25 text-center border border-light">
         <h2>Member Login</h2>
@@ -115,9 +121,9 @@ background-image: url(https://www.transparenttextures.com/patterns/black-scales.
         <div class="text-center">
             <button id="tombolholiday" class="btn btn-success mb-2">Holiday List</button>
         </div>
-        <div class="text-center">
+        <!-- <div class="text-center">
             <button id="tombollogout" class="btn btn-secondary mb-2">Logout</button>
-        </div>
+        </div> -->
     </div>
 
     <div id="divadd" class="container bg-dark text-white mt-3 rounded pb-2 w-50 border border-light">
@@ -146,7 +152,7 @@ background-image: url(https://www.transparenttextures.com/patterns/black-scales.
             <button class="btn btn-secondary mt-2 tombolback">Back</button>
         </div>
     </div>
-<!-- -------------------------------------------------------------- -->
+    <!-- -------------------------------------------------------------- -->
     <div id="divholiday" class="container bg-dark rounded pb-2 border border-light">
         <div class="text-center text-white">
             <h4 style="font-size: 50px; font-family:Arial" class="pt-2">List of Holiday</h4>
@@ -170,7 +176,7 @@ background-image: url(https://www.transparenttextures.com/patterns/black-scales.
             <button class="btn btn-secondary mt-2 tombolback">Back</button>
         </div>
     </div>
-<!-- ------------------------------------------------------------------------ -->
+    <!-- ------------------------------------------------------------------------ -->
     <div id="divedit" class="container bg-dark text-white mt-3 rounded pb-2 w-50 border border-light">
         <h2 class="pt-2">Edit Todo</h2>
         <form id="edit-form">
@@ -204,9 +210,11 @@ background-image: url(https://www.transparenttextures.com/patterns/black-scales.
     <script>
         $(document).ready(function () {
             if (localStorage.getItem("token")) {
+                $("#tombollogout").show(300)
                 getTodo()
                 $("#divtodos").show(300)
             } else {
+                $("#tombollogout").hide(300)
                 $("#divlogin").show(300)
             }
 
@@ -221,6 +229,8 @@ background-image: url(https://www.transparenttextures.com/patterns/black-scales.
                 event.preventDefault()
                 $(".container").hide(300);
                 $("#divtodos").show(300)
+                $("#errormess").html(``)
+
             });
 
             $("#tombolpindahregister").click(function (event) {
@@ -250,6 +260,14 @@ background-image: url(https://www.transparenttextures.com/patterns/black-scales.
                         $("#login-form")[0].reset()
                         $("#divlogin").hide(300)
                         $("#divtodos").show(300)
+                        $("#tombollogout").show(300)
+                        $("#errormess").html(`<div class="alert alert-success" role="alert">Welcome to Fancy Todo</div>`)
+                    },
+                    error: function (err) {
+                        console.log(err)
+                        // $("#errormess").html(`<div class="alert alert-danger" role="alert"> Sign In Failed </div>`)
+                        $("#errormess").html(`<div class="alert alert-danger" role="alert">${err.responseJSON.msg}</div>`)
+
                     }
                 })
             })
@@ -269,6 +287,12 @@ background-image: url(https://www.transparenttextures.com/patterns/black-scales.
                         $("#register-form")[0].reset()
                         $("#divregister").hide(300)
                         $("#divtodos").show(300)
+                        $("#tombollogout").show(300)
+                        $("#errormess").html(`<div class="alert alert-success" role="alert">Welcome to Fancy Todo</div>`)
+                    },
+                    error: function (err) {
+                        console.log(err)
+                        $("#errormess").html(`<div class="alert alert-danger" role="alert"> Sign Up Failed </div>`)
                     }
                 })
             })
@@ -290,7 +314,9 @@ background-image: url(https://www.transparenttextures.com/patterns/black-scales.
                         });
                         localStorage.clear()
                         $(".container").hide(300)
+                        $("#tombollogout").hide(300)
                         $("#divlogin").show(300)
+                        $("#errormess").html(``)
 
                     } else if (result.dismiss === Swal.DismissReason.cancel) {
                         Swal.fire(
@@ -327,6 +353,10 @@ background-image: url(https://www.transparenttextures.com/patterns/black-scales.
                         getTodo()
                         $("#divtodos").show(300)
                     })
+                    .fail(function (err) {
+                        $("#errormess").html(`<div class="alert alert-danger" role="alert">${err.responseJSON[0].msg}</div>`)
+
+                    })
             })
 
             $("#edit-form").submit(function (event) {
@@ -348,11 +378,15 @@ background-image: url(https://www.transparenttextures.com/patterns/black-scales.
                         getTodo()
                         $("#divtodos").show(300)
                     })
+                    .fail(function (err) {
+                        console.log(err)
+                        $("#errormess").html(`<div class="alert alert-danger" role="alert">${err.responseJSON.errorTemp[0].msg}</div>`)
+                    })
             })
 
         })
 
-        function holiday(){
+        function holiday() {
             $.ajax({
                 url: "http://localhost:3000/todos/holidays",
                 type: "get",
@@ -360,7 +394,7 @@ background-image: url(https://www.transparenttextures.com/patterns/black-scales.
                     $("#tableHoliday tbody").empty()
                     let count = 0
                     data.forEach(element => {
-                        count+=1
+                        count += 1
                         $("#tableHoliday tbody").append(
                             `<tr>
                                 <td>${count}</td>
@@ -386,6 +420,11 @@ background-image: url(https://www.transparenttextures.com/patterns/black-scales.
                     getTodo()
                     $("#divlogin").hide(300)
                     $("#divtodos").show(300)
+                    $("#tombollogout").show(300)
+                    $("#errormess").html(`<div class="alert alert-success" role="alert">Welcome to Fancy Todo</div>`)
+                })
+                .catch(data => {
+                    $("#errormess").html(`<div class="alert alert-danger" role="alert"> Sign In Failed </div>`)
                 })
         }
 
