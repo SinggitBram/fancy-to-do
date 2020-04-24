@@ -17,9 +17,6 @@ class UserController {
                     res.status(400).json({ msg: `email not registered` })
                 } else {
                     if (bcrypt.compareSync(password, data.password)) {
-                      
-
-
                         let token = jwt.sign({ id: data.id, email: data.email }, process.env.JWT_SECRET);
                         res.status(200).json({ token })
                     } else {
